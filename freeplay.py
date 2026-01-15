@@ -51,6 +51,8 @@ while running:
             running = False
         elif event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:  
             running = False
+        elif ball.y==1:
+            running=False
 
     vindu.fill(WHITE)
 
@@ -65,8 +67,15 @@ while running:
     for kloss in klosser:
         kloss.tegn(vindu)
     
-    if ball.rect.colliderect(platform.x, platform.y, platform.width, platform.height):
-        ball.vy *= -1
+    if ball.rect.colliderect(platform.rect):
+       if ball.rect.centerx < platform.rect.left or ball.rect.centerx > platform.rect.right:
+            ball.vx *= -1
+       elif ball.rect.centery < platform.rect.centery:
+           ball.vy *= -1
+           ball.rect.bottom = platform.rect.top
+       else:
+           ball.vy *= -1
+    
     
 
   

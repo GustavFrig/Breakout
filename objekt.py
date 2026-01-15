@@ -8,13 +8,15 @@ class Platform(object):
         self.y = y
         self.width = 100
         self.height = 20
+        self.rect = pg.Rect(x, y, self.width, self.height)
 
     def oppdater(self):
         pos = pg.mouse.get_pos()
         self.x = pos[0] - (self.width/2)
+        self.rect.x = self.x
 
     def tegn(self, vindu):
-        pg.draw.rect(vindu, self.farge, (self.x, self.y, self.width, self.height))
+        pg.draw.rect(vindu, self.farge, self.rect)
 
 class Ball:
     def __init__(self, x, y, bredde, hoyde, farge, vx, vy):
