@@ -15,3 +15,27 @@ class Platform(object):
 
     def tegn(self, vindu):
         pg.draw.rect(vindu, self.farge, (self.x, self.y, self.width, self.height))
+
+class Ball:
+    def __init__(self, x, y, bredde, hoyde, farge, vx, vy):
+        self.x = x
+        self.y = y
+        self.rect = pg.Rect(x, y, bredde, hoyde)
+        self.farge = farge
+        self.vx = vx
+        self.vy = vy
+
+    def oppdater(self):
+        self.rect.x += self.vx
+        self.rect.y += self.vy
+
+        if self.rect.bottom >= VINDU_HOYDE or self.rect.top <= 0:
+            self.vy *= -1
+
+        if self.rect.right >= VINDU_BREDDE or self.rect.left <= 0:
+            self.vx *= -1
+    
+
+    def tegn(self, vindu):
+        pg.draw.rect(vindu, self.farge, self.rect)
+

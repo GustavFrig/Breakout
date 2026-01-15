@@ -1,33 +1,16 @@
 import pygame as pg
 from constants import *
+from objekt import *
 
 pg.init()
+
+FPS = FPS
+clock = pg.time.Clock()
 
 
 vindu = pg.display.set_mode((VINDU_BREDDE, VINDU_HOYDE))
 pg.display.set_caption("Freeplay")
 
-class Ball:
-    def __init__(self, x, y, bredde, hoyde, farge, vx, vy):
-        self.x = x
-        self.y = y
-        self.rect = pg.Rect(x, y, bredde, hoyde)
-        self.farge = farge
-        self.vx = vx
-        self.vy = vy
-
-    def oppdater(self):
-        self.rect.x += self.vx
-        self.rect.y += self.vy
-
-        if self.rect.bottom >= VINDU_HOYDE or self.rect.top <= 0:
-            self.vy *= -1
-
-        if self.rect.right >= VINDU_BREDDE or self.rect.left <= 0:
-            self.vx *= -1
-
-    def tegn(self, vindu):
-        pg.draw.rect(vindu, self.farge, self.rect)
 
 class Rekt:
     def __init__(self, x, y, bredde, hoyde, farge):
@@ -46,9 +29,11 @@ ball = Ball(
     bredde=15,
     hoyde=15,
     farge=(255, 0, 0),
-    vx=1,
-    vy=1
+    vx=5,
+    vy=5
 )
+platform = Platform(farge=BLUE, x=500, y=500)
+
 for rad in range(ANTALL_RADER):
     for kol in range(ANTALL_KOLONNER):
         x = MARGIN + kol * (KLOSS_BREDDE + MARGIN)
@@ -79,8 +64,17 @@ while running:
     ball.tegn(vindu)
     for kloss in klosser:
         kloss.tegn(vindu)
+    
+    if ball.rect.colliderect(platform.x, platform.y, platform.width, platform.height):
+        ball.vy *= -1
+    
 
   
-    pg.display.update()
+    platform.oppdater()
+    platform.tegn(vindu)
+
+  
+    pg.display.flip()
+    clock.tick(FPS)
 
 pg.quit()
