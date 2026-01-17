@@ -41,3 +41,12 @@ class Ball:
     def tegn(self, vindu):
         pg.draw.rect(vindu, self.farge, self.rect)
 
+class Rekt:
+    def __init__(self, x, y, bredde, hoyde, farge):
+        self.rect = pg.Rect(x, y, bredde, hoyde)
+        self.farge = farge
+        self.aktiv = True  # om klossen fortsatt finnes
+
+    def tegn(self, vindu):
+        if self.aktiv:
+            pg.draw.rect(vindu, self.farge, self.rect)
