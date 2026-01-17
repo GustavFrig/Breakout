@@ -30,6 +30,7 @@ while running:
 
     
     vindu.fill((GREEN))
+    
 
     pg.draw.rect(vindu, (70, 70, 200), freeplay_rektangel)
     pg.draw.rect(vindu, (70, 200, 70), level_rektangel)

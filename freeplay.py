@@ -41,8 +41,10 @@ def freeplay():
                 running = False
             elif event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:  
                 running = False
-            elif ball.rect.top>VINDU_HOYDE:
-                running=False
+            elif str(len(klosser)*100) == poneg:
+                ball.vx = 0
+                ball.vy = 0
+                # VIl at det skal komme en skjerm som sier at du vant og at man kan fortsetter/start nytt og back to lobby
         
 
         vindu.fill(WHITE)
