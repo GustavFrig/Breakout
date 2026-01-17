@@ -34,7 +34,7 @@ while running:
     pg.draw.rect(vindu, (70, 70, 200), freeplay_rektangel)
     pg.draw.rect(vindu, (70, 200, 70), level_rektangel)
 
-
+    vindu.blit(FONT.render("Breakout", True, WHITE), (225,35))
     vindu.blit(FONT.render("Freeplay", True, WHITE), (250, 135))
     vindu.blit(FONT.render("Levels", True, WHITE), (250, 215))
 

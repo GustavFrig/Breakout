@@ -43,13 +43,14 @@ def freeplay():
                 running = False
             elif ball.rect.top>VINDU_HOYDE:
                 running=False
+        
 
         vindu.fill(WHITE)
 
         ball.oppdater()
 
         teller = FONT.render(poneg,True, (BLACK))
-        vindu.blit(teller,(0,0))
+        vindu.blit(teller,(10,10))
         
         for kloss in klosser:
             if kloss.aktiv and ball.rect.colliderect(kloss.rect):
