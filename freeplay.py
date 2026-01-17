@@ -9,6 +9,7 @@ def freeplay():
     clock = pg.time.Clock()
     vindu = pg.display.set_mode((VINDU_BREDDE, VINDU_HOYDE))
     pg.display.set_caption("Freeplay")
+    FONT = pg.font.SysFont(None, 40)
 
 
     ball = Ball(
@@ -31,9 +32,10 @@ def freeplay():
             )
 
 
-
+    poneg = "0"
     running = True
     while running:
+        
         for event in pg.event.get():  
             if event.type == pg.QUIT:  
                 running = False
@@ -45,9 +47,15 @@ def freeplay():
         vindu.fill(WHITE)
 
         ball.oppdater()
-    
+
+        teller = FONT.render(poneg,True, (BLACK))
+        vindu.blit(teller,(0,0))
+        
         for kloss in klosser:
             if kloss.aktiv and ball.rect.colliderect(kloss.rect):
+                poneg = int(poneg)
+                poneg+=100
+                poneg = str(poneg)
                 kloss.aktiv = False
                 ball.vy *= -1
                 break

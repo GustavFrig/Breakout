@@ -9,7 +9,8 @@ pg.display.set_caption("Meny")
 clock = pg.time.Clock()
 
 
-font = pg.font.SysFont(None, 40)
+FONT = pg.font.SysFont(None, 40)
+
 
 freeplay_rektangel = pg.Rect(200, 120, 200, 50)
 level_rektangel = pg.Rect(200, 200, 200, 50)
@@ -34,8 +35,8 @@ while running:
     pg.draw.rect(vindu, (70, 200, 70), level_rektangel)
 
 
-    vindu.blit(font.render("Freeplay", True, WHITE), (250, 135))
-    vindu.blit(font.render("Mode 2", True, WHITE), (250, 215))
+    vindu.blit(FONT.render("Freeplay", True, WHITE), (250, 135))
+    vindu.blit(FONT.render("Levels", True, WHITE), (250, 215))
 
 
     pg.display.flip()
