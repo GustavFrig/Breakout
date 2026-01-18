@@ -65,7 +65,16 @@ def freeplay():
         ball.oppdater()
         if ball.rect.bottom >= VINDU_HOYDE:
             ball.rect.bottom = VINDU_HOYDE
-            running = False
+            
+            vindu.fill(WHITE)
+            
+            ball.vx = 0
+            ball.vy = 0
+            
+            vindu.blit(FONT.render("DU TAPTE", True, BLACK), ((225),35))
+            vindu.blit(FONT.render(f"Din score ble {poneg}", True, BLACK), (225,135))
+            vindu.blit(FONT.render("Tilbake til menyen", True, BLACK), (175, 235))
+            pg.draw.rect(vindu, BLACK, meny_rektangel, 2)
 
         teller = FONT.render(poneg,True, (BLACK))
         vindu.blit(teller,(10,10))
