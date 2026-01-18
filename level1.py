@@ -1,22 +1,27 @@
 import pygame as pg
 from constants import *
 from objekt import *
-import random as rn
 
-def freeplay():
-    start_tid = pg.time.get_ticks()
-    START_PAUSE = 1000  # 1 sekund
-    fartRetning = [-1, 1]
+def Level_1():
     pg.init()
     
     ball = Ball(
-        x=rn.randint(0, 600),
+        x=400,
         y=300,
         bredde=15,
         hoyde=15,
         farge=(RED),
-        vx=5*rn.choice(fartRetning),
+        vx=4.5,
         vy=5
+    )
+    ball2 = Ball(
+        x=350,
+        y=400,
+        bredde=15,
+        hoyde=15,
+        farge=(PURPLE),
+        vx=3,
+        vy=4
     )
     platform = Platform(farge=BLUE, x=500, y=500)
 
@@ -24,7 +29,7 @@ def freeplay():
     FPS = 60
     clock = pg.time.Clock()
     vindu = pg.display.set_mode((VINDU_BREDDE, VINDU_HOYDE))
-    pg.display.set_caption("Freeplay")
+    pg.display.set_caption("Level 1: Alt er bedre i par")
     FONT = pg.font.SysFont(None, 40)
 
     def skaperverket():
@@ -40,11 +45,9 @@ def freeplay():
     klosser = skaperverket()
 
     poneg = "0"
-    runde = 1
     running = True
     status = True
     
-    fortsett_rektangel = pg.Rect(200, 120, 180, 50)
     meny_rektangel = pg.Rect(160, 220, 275, 50)
     
     
@@ -56,52 +59,47 @@ def freeplay():
             elif event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:  
                 running = False
             elif event.type == pg.MOUSEBUTTONDOWN:
-                if str(len(klosser)*(runde*100)) == poneg:
-                    if fortsett_rektangel.collidepoint(event.pos):
-                        runde += 1
-                        klosser = skaperverket()  
-                        ball.rect.x = 300
-                        ball.rect.y = 300
-                        ball.vx = 5
-                        ball.vy = 5
-                    elif meny_rektangel.collidepoint(event.pos):
-                        running = False
-                elif status == False:
+                if status == False:
                     if meny_rektangel.collidepoint(event.pos):
                         running = False
                     
-          
+       
+        
         #Når man vinner
-        if str(len(klosser)*(runde*100)) == poneg:
+        if poneg == str(len(klosser)*100):
             ball.vx = 0
             ball.vy = 0
             
+            ball2.vx = 0
+            ball2.vy = 0
+            
+            status = False
+            
             vindu.blit(FONT.render("DU VANT", True, BLACK), ((225),35))
-            vindu.blit(FONT.render("Fortsett", True, BLACK), (225,135))
             vindu.blit(FONT.render("Tilbake til menyen", True, BLACK), (175, 235))
             
-            pg.draw.rect(vindu, BLACK, fortsett_rektangel,2)
             pg.draw.rect(vindu, BLACK, meny_rektangel, 2)
             
-        nå = pg.time.get_ticks()
-        if nå - start_tid >= START_PAUSE:
-            ball.oppdater()
+        ball.oppdater()
+        ball2.oppdater()
         #Når man taper
-        if ball.rect.bottom >= VINDU_HOYDE:
+        if ball.rect.bottom >= VINDU_HOYDE or ball2.rect.bottom >= VINDU_HOYDE:
             ball.rect.bottom = VINDU_HOYDE
+            ball2.rect.bottom = VINDU_HOYDE
             
             status = False
             
             
             ball.vx = 0
             ball.vy = 0
+            ball2.vx = 0
+            ball2.vy = 0
             
             vindu.blit(FONT.render("DU TAPTE", True, BLACK), ((225),35))
-            vindu.blit(FONT.render(f"Din score ble {poneg}", True, BLACK), (225,135))
             vindu.blit(FONT.render("Tilbake til menyen", True, BLACK), (175, 235))
             pg.draw.rect(vindu, BLACK, meny_rektangel, 2)
 
-        #Poneg
+        #poeng
         teller = FONT.render(poneg,True, (BLACK))
         vindu.blit(teller,(10,10))
         
@@ -112,23 +110,17 @@ def freeplay():
                 poneg+=100
                 poneg = str(poneg)
                 kloss.aktiv = False
-
-                overlap_V   = ball.rect.right - kloss.rect.left
-                overlap_Oo  = kloss.rect.right - ball.rect.left
-                overlap_N    = ball.rect.bottom - kloss.rect.top
-                overlap_S = kloss.rect.bottom - ball.rect.top
-
-                minste_overlap = min(
-                    abs(overlap_V), abs(overlap_Oo),
-                    abs(overlap_N), abs(overlap_S)
-                )
-
-
-                if minste_overlap == abs(overlap_N) or minste_overlap == abs(overlap_S):
-                    ball.vy *= -1
-                else:
-                    ball.vx *= -1
+                ball.vy *= -1
                 break
+            elif kloss.aktiv and ball2.rect.colliderect(kloss.rect):
+                poneg = int(poneg)
+                poneg+=100
+                poneg = str(poneg)
+                kloss.aktiv = False
+                ball2.vy *= -1
+                break
+                
+            
         #Hvor ballen bouncer
         if ball.rect.colliderect(platform.rect):
             if ball.vy > 0:
@@ -136,11 +128,26 @@ def freeplay():
                 ball.rect.bottom = platform.rect.top
             else:
                 ball.vx *= -1
+        elif ball2.rect.colliderect(platform.rect):
+            if ball2.vy > 0:
+                ball2.vy *= -1
+                ball2.rect.bottom = platform.rect.top
+            else:
+                ball2.vx *= -1
+        
+        #Kolisjon mellom ballene
+        if ball.rect.colliderect(ball2.rect):
+            ball.vx *= -1
+            ball.vy *= -1
+            ball2.vx *= -1
+            ball2.vy *= -1
+            
     
     
         #Status av spillet
         if status == True:
             ball.tegn(vindu)
+            ball2.tegn(vindu)
             for kloss in klosser:
                 kloss.tegn(vindu)
   
@@ -150,5 +157,6 @@ def freeplay():
   
         pg.display.flip()
         clock.tick(FPS)
+
 
 pg.quit()

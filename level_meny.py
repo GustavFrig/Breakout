@@ -1,5 +1,6 @@
 import pygame as pg
 from constants import *
+from level1 import Level_1
 
 def level_meny():
     pg.init()
@@ -13,6 +14,7 @@ def level_meny():
     level2_rektangel = pg.Rect(250, 200, 50, 50)
     level3_rektangel = pg.Rect(450, 200, 50, 50)
 
+    vindu.fill((BLACK))
     running = True
     while running:
         pg.display.set_caption("Level meny")
@@ -23,14 +25,14 @@ def level_meny():
                 running = False
             elif event.type == pg.MOUSEBUTTONDOWN:
                 if level1_rektangel.collidepoint(event.pos):
-                 pass
+                    Level_1()
                 elif level2_rektangel.collidepoint(event.pos):
                     pass
                 elif level3_rektangel.collidepoint(event.pos):
                     pass
 
-    
         vindu.fill((BLACK))
+        
     
         vindu.blit(FONT.render("Level Meny", True, WHITE), (225,125))
         pg.draw.rect(vindu, BLUE, level1_rektangel)
