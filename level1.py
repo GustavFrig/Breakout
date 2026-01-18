@@ -1,26 +1,31 @@
 import pygame as pg
+import random as rn
 from constants import *
 from objekt import *
 
 def Level_1():
+    start_tid = pg.time.get_ticks()
+    START_PAUSE = 1000  # 1 sekund
+    fartRetning = [-1, 1]
     pg.init()
     
+    start_pos = rn.randint(100, 400)
     ball = Ball(
-        x=400,
-        y=300,
+        x= start_pos,
+        y=250,
         bredde=15,
         hoyde=15,
         farge=(RED),
-        vx=4.5,
+        vx=4.5*rn.choice(fartRetning),
         vy=5
     )
     ball2 = Ball(
-        x=350,
-        y=400,
+        x=start_pos + rn.randint(50,150),
+        y=250,
         bredde=15,
         hoyde=15,
         farge=(PURPLE),
-        vx=3,
+        vx=3*rn.choice(fartRetning),
         vy=4
     )
     platform = Platform(farge=BLUE, x=500, y=500)
@@ -80,12 +85,19 @@ def Level_1():
             
             pg.draw.rect(vindu, BLACK, meny_rektangel, 2)
             
-        ball.oppdater()
-        ball2.oppdater()
+        nå = pg.time.get_ticks()
+        if nå - start_tid >= START_PAUSE:
+            ball.oppdater()
+        
+        if nå - start_tid >= START_PAUSE:
+            ball2.oppdater()
         #Når man taper
         if ball.rect.bottom >= VINDU_HOYDE or ball2.rect.bottom >= VINDU_HOYDE:
             ball.rect.bottom = VINDU_HOYDE
             ball2.rect.bottom = VINDU_HOYDE
+            
+            if status == True:  
+                losing_effect.play()
             
             status = False
             
@@ -109,15 +121,47 @@ def Level_1():
                 poneg = int(poneg)
                 poneg+=100
                 poneg = str(poneg)
+                kloss.lyd.play()
                 kloss.aktiv = False
-                ball.vy *= -1
+                
+                
+
+                overlap_V   = ball.rect.right - kloss.rect.left
+                overlap_Oo  = kloss.rect.right - ball.rect.left
+                overlap_N    = ball.rect.bottom - kloss.rect.top
+                overlap_S = kloss.rect.bottom - ball.rect.top
+
+                minste_overlap = min(
+                    abs(overlap_V), abs(overlap_Oo),
+                    abs(overlap_N), abs(overlap_S)
+                )
+
+                if minste_overlap == abs(overlap_N) or minste_overlap == abs(overlap_S):
+                    ball.vy *= -1
+                else:
+                    ball.vx *= -1
                 break
             elif kloss.aktiv and ball2.rect.colliderect(kloss.rect):
                 poneg = int(poneg)
                 poneg+=100
                 poneg = str(poneg)
                 kloss.aktiv = False
-                ball2.vy *= -1
+
+                overlap_V   = ball2.rect.right - kloss.rect.left
+                overlap_Oo  = kloss.rect.right - ball2.rect.left
+                overlap_N    = ball2.rect.bottom - kloss.rect.top
+                overlap_S = kloss.rect.bottom - ball2.rect.top
+
+                minste_overlap = min(
+                    abs(overlap_V), abs(overlap_Oo),
+                    abs(overlap_N), abs(overlap_S)
+                )
+
+
+                if minste_overlap == abs(overlap_N) or minste_overlap == abs(overlap_S):
+                    ball2.vy *= -1
+                else:
+                    ball2.vx *= -1
                 break
                 
             

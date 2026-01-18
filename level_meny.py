@@ -1,9 +1,11 @@
 import pygame as pg
 from constants import *
 from level1 import Level_1
+from level3 import Level_3
 
 def level_meny():
     pg.init()
+    pg.mixer.init()
 
     vindu = pg.display.set_mode((VINDU_BREDDE, VINDU_HOYDE))
     clock = pg.time.Clock()
@@ -29,7 +31,7 @@ def level_meny():
                 elif level2_rektangel.collidepoint(event.pos):
                     pass
                 elif level3_rektangel.collidepoint(event.pos):
-                    pass
+                    Level_3()
 
         vindu.fill((BLACK))
         

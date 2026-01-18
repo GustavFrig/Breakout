@@ -90,8 +90,10 @@ def freeplay():
         if ball.rect.bottom >= VINDU_HOYDE:
             ball.rect.bottom = VINDU_HOYDE
             
+            if status == True:  
+                losing_effect.play()
+
             status = False
-            
             
             ball.vx = 0
             ball.vy = 0
@@ -100,6 +102,7 @@ def freeplay():
             vindu.blit(FONT.render(f"Din score ble {poneg}", True, BLACK), (225,135))
             vindu.blit(FONT.render("Tilbake til menyen", True, BLACK), (175, 235))
             pg.draw.rect(vindu, BLACK, meny_rektangel, 2)
+        
 
         #Poneg
         teller = FONT.render(poneg,True, (BLACK))
@@ -111,7 +114,9 @@ def freeplay():
                 poneg = int(poneg)
                 poneg+=100
                 poneg = str(poneg)
+                kloss.lyd.play()
                 kloss.aktiv = False
+                
 
                 overlap_V   = ball.rect.right - kloss.rect.left
                 overlap_Oo  = kloss.rect.right - ball.rect.left
