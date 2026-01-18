@@ -26,9 +26,10 @@ def freeplay():
     poneg = "0"
     runde = 1
     running = True
+    status = True
     
     fortsett_rektangel = pg.Rect(200, 120, 180, 50)
-    meny_rektangel = pg.Rect(160, 220, 320, 50)
+    meny_rektangel = pg.Rect(160, 220, 275, 50)
     
     
     while running:
@@ -49,6 +50,10 @@ def freeplay():
                         ball.vy = 5
                     elif meny_rektangel.collidepoint(event.pos):
                         running = False
+                elif status == False:
+                    if meny_rektangel.collidepoint(event.pos):
+                        running = False
+                    
           
         #Når man vinner
         if str(len(klosser)*(runde*100)) == poneg:
@@ -63,10 +68,12 @@ def freeplay():
             pg.draw.rect(vindu, BLACK, meny_rektangel, 2)
             
         ball.oppdater()
+        #Når man taper
         if ball.rect.bottom >= VINDU_HOYDE:
             ball.rect.bottom = VINDU_HOYDE
             
-            vindu.fill(WHITE)
+            status = False
+            
             
             ball.vx = 0
             ball.vy = 0
@@ -76,9 +83,11 @@ def freeplay():
             vindu.blit(FONT.render("Tilbake til menyen", True, BLACK), (175, 235))
             pg.draw.rect(vindu, BLACK, meny_rektangel, 2)
 
+        #Poneg
         teller = FONT.render(poneg,True, (BLACK))
         vindu.blit(teller,(10,10))
         
+        #Ødeleggelsen av klosser
         for kloss in klosser:
             if kloss.aktiv and ball.rect.colliderect(kloss.rect):
                 poneg = int(poneg)
@@ -87,7 +96,7 @@ def freeplay():
                 kloss.aktiv = False
                 ball.vy *= -1
                 break
-    
+        #Hvor ballen bouncer
         if ball.rect.colliderect(platform.rect):
             if ball.vy > 0:
                 ball.vy *= -1
@@ -96,12 +105,14 @@ def freeplay():
                 ball.vx *= -1
     
     
-        ball.tegn(vindu)
-        for kloss in klosser:
-            kloss.tegn(vindu)
+        #Status av spillet
+        if status == True:
+            ball.tegn(vindu)
+            for kloss in klosser:
+                kloss.tegn(vindu)
   
-        platform.oppdater()
-        platform.tegn(vindu)
+            platform.oppdater()
+            platform.tegn(vindu)
 
   
         pg.display.flip()
