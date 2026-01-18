@@ -8,9 +8,7 @@ vindu = pg.display.set_mode((VINDU_BREDDE, VINDU_HOYDE))
 pg.display.set_caption("Meny")
 clock = pg.time.Clock()
 
-
 FONT = pg.font.SysFont(None, 40)
-
 
 freeplay_rektangel = pg.Rect(200, 120, 200, 50)
 level_rektangel = pg.Rect(200, 200, 200, 50)

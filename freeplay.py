@@ -11,18 +11,6 @@ def freeplay():
     pg.display.set_caption("Freeplay")
     FONT = pg.font.SysFont(None, 40)
 
-
-    ball = Ball(
-        x=400,
-        y=300,
-        bredde=15,
-        hoyde=15,
-        farge=(255, 0, 0),
-        vx=5,
-        vy=5
-    )
-    platform = Platform(farge=BLUE, x=500, y=500)
-
     def skaperverket():
         klosser = []
         for rad in range(ANTALL_RADER):
@@ -55,7 +43,6 @@ def freeplay():
                     if fortsett_rektangel.collidepoint(event.pos):
                         runde += 1
                         klosser = skaperverket()  
-                        
                         ball.rect.x = 300
                         ball.rect.y = 300
                         ball.vx = 5
