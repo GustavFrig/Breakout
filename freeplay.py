@@ -62,9 +62,10 @@ def freeplay():
             pg.draw.rect(vindu, BLACK, fortsett_rektangel,2)
             pg.draw.rect(vindu, BLACK, meny_rektangel, 2)
             
-            
-  
         ball.oppdater()
+        if ball.rect.bottom >= VINDU_HOYDE:
+            ball.rect.bottom = VINDU_HOYDE
+            running = False
 
         teller = FONT.render(poneg,True, (BLACK))
         vindu.blit(teller,(10,10))
@@ -79,13 +80,11 @@ def freeplay():
                 break
     
         if ball.rect.colliderect(platform.rect):
-            if ball.rect.centerx < platform.rect.left or ball.rect.centerx > platform.rect.right:
-                ball.vx *= -1
-            elif ball.rect.centery < platform.rect.centery:
+            if ball.vy > 0:
                 ball.vy *= -1
                 ball.rect.bottom = platform.rect.top
             else:
-                ball.vy *= -1
+                ball.vx *= -1
     
     
         ball.tegn(vindu)
