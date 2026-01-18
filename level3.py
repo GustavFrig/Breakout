@@ -143,5 +143,5 @@ def Level_3():
   
         pg.display.flip()
         clock.tick(FPS)
-Level_3()
+
 pg.quit()
