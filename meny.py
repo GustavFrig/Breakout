@@ -1,11 +1,11 @@
 import pygame as pg
 from constants import *
 from freeplay import freeplay
+from level_meny import level_meny
 
 pg.init()
 
 vindu = pg.display.set_mode((VINDU_BREDDE, VINDU_HOYDE))
-pg.display.set_caption("Meny")
 clock = pg.time.Clock()
 
 FONT = pg.font.SysFont(None, 40)
@@ -23,7 +23,7 @@ while running:
             if freeplay_rektangel.collidepoint(event.pos):
                 freeplay()
             if level_rektangel.collidepoint(event.pos):
-                pass
+                level_meny()
 
     
     vindu.fill((BLACK))
