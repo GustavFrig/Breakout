@@ -19,7 +19,9 @@ while running:
     for event in pg.event.get():
         if event.type == pg.QUIT:
             running = False
-        if event.type == pg.MOUSEBUTTONDOWN:
+        elif event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:  
+                running = False
+        elif event.type == pg.MOUSEBUTTONDOWN:
             if freeplay_rektangel.collidepoint(event.pos):
                 freeplay()
             if level_rektangel.collidepoint(event.pos):
