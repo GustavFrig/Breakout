@@ -76,6 +76,9 @@ def Level_3():
         if ball.rect.bottom >= VINDU_HOYDE:
             ball.rect.bottom = VINDU_HOYDE
             
+            if status == True:  
+                losing_effect.play()
+            
             status = False
             
             
@@ -97,7 +100,7 @@ def Level_3():
                 poneg+=100
                 poneg = str(poneg)
                 
-                
+                kloss.lyd.play()
                 kloss.aktiv = False
                 
                 ball.vx *= 1.05

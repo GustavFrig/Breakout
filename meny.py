@@ -4,6 +4,7 @@ from freeplay import freeplay
 from level_meny import level_meny
 
 pg.init()
+pg.mixer.init() 
 
 vindu = pg.display.set_mode((VINDU_BREDDE, VINDU_HOYDE))
 clock = pg.time.Clock()
