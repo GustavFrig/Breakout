@@ -51,13 +51,3 @@ class Rekt:
         if self.aktiv:
             pg.draw.rect(vindu, self.farge, self.rect)
 
-ball = Ball(
-        x=400,
-        y=300,
-        bredde=15,
-        hoyde=15,
-        farge=(255, 0, 0),
-        vx=5,
-        vy=5
-    )
-platform = Platform(farge=BLUE, x=500, y=500)
