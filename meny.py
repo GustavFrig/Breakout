@@ -21,7 +21,6 @@ while running:
     for event in pg.event.get():
         if event.type == pg.QUIT:
             running = False
-
         if event.type == pg.MOUSEBUTTONDOWN:
             if freeplay_rektangel.collidepoint(event.pos):
                 freeplay()
@@ -29,11 +28,11 @@ while running:
                 pass
 
     
-    vindu.fill((GREEN))
+    vindu.fill((BLACK))
     
 
-    pg.draw.rect(vindu, (70, 70, 200), freeplay_rektangel)
-    pg.draw.rect(vindu, (70, 200, 70), level_rektangel)
+    pg.draw.rect(vindu, BLUE, freeplay_rektangel)
+    pg.draw.rect(vindu, RED, level_rektangel)
 
     vindu.blit(FONT.render("Breakout", True, WHITE), (225,35))
     vindu.blit(FONT.render("Freeplay", True, WHITE), (250, 135))

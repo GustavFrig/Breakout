@@ -23,32 +23,60 @@ def freeplay():
     )
     platform = Platform(farge=BLUE, x=500, y=500)
 
-    for rad in range(ANTALL_RADER):
-        for kol in range(ANTALL_KOLONNER):
-            x = MARGIN + kol * (KLOSS_BREDDE + MARGIN)
-            y = START_Y + rad * (KLOSS_HOYDE + MARGIN)
-            klosser.append(
-                Rekt(x, y, KLOSS_BREDDE, KLOSS_HOYDE, (0, 150, 255))
-            )
-
+    def skaperverket():
+        klosser = []
+        for rad in range(ANTALL_RADER):
+            for kol in range(ANTALL_KOLONNER):
+                x = MARGIN + kol * (KLOSS_BREDDE + MARGIN)
+                y = START_Y + rad * (KLOSS_HOYDE + MARGIN)
+                klosser.append(
+                    Rekt(x, y, KLOSS_BREDDE, KLOSS_HOYDE, (0, 150, 255))
+                )
+        return klosser
+    klosser = skaperverket()
 
     poneg = "0"
+    runde = 1
     running = True
+    
+    fortsett_rektangel = pg.Rect(200, 120, 180, 50)
+    meny_rektangel = pg.Rect(160, 220, 320, 50)
+    
+    
     while running:
-        
+        vindu.fill(WHITE)
         for event in pg.event.get():  
             if event.type == pg.QUIT:  
                 running = False
             elif event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:  
                 running = False
-            elif str(len(klosser)*100) == poneg:
-                ball.vx = 0
-                ball.vy = 0
-                # VIl at det skal komme en skjerm som sier at du vant og at man kan fortsetter/start nytt og back to lobby
-        
-
-        vindu.fill(WHITE)
-
+            elif event.type == pg.MOUSEBUTTONDOWN:
+                if str(len(klosser)*(runde*100)) == poneg:
+                    if fortsett_rektangel.collidepoint(event.pos):
+                        runde += 1
+                        klosser = skaperverket()  
+                        
+                        ball.rect.x = 300
+                        ball.rect.y = 300
+                        ball.vx = 5
+                        ball.vy = 5
+                    elif meny_rektangel.collidepoint(event.pos):
+                        running = False
+          
+        #Når man vinner
+        if str(len(klosser)*(runde*100)) == poneg:
+            ball.vx = 0
+            ball.vy = 0
+            
+            vindu.blit(FONT.render("DU VANT", True, BLACK), ((225),35))
+            vindu.blit(FONT.render("Fortsett", True, BLACK), (225,135))
+            vindu.blit(FONT.render("Tilbake til menyen", True, BLACK), (175, 235))
+            
+            pg.draw.rect(vindu, BLACK, fortsett_rektangel,2)
+            pg.draw.rect(vindu, BLACK, meny_rektangel, 2)
+            
+            
+  
         ball.oppdater()
 
         teller = FONT.render(poneg,True, (BLACK))
