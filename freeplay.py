@@ -14,7 +14,7 @@ def freeplay():
         y=300,
         bredde=15,
         hoyde=15,
-        farge=(255, 0, 0),
+        farge=(RED),
         vx=5*rn.choice(fartRetning),
         vy=5
     )
