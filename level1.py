@@ -146,6 +146,7 @@ def Level_1():
                 poneg+=100
                 poneg = str(poneg)
                 kloss.aktiv = False
+                kloss.lyd.play()
 
                 overlap_V   = ball2.rect.right - kloss.rect.left
                 overlap_Oo  = kloss.rect.right - ball2.rect.left
