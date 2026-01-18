@@ -1,6 +1,7 @@
 import pygame as pg
 from constants import *
 from level1 import Level_1
+from level2 import Level_2
 from level3 import Level_3
 
 def level_meny():
@@ -29,7 +30,7 @@ def level_meny():
                 if level1_rektangel.collidepoint(event.pos):
                     Level_1()
                 elif level2_rektangel.collidepoint(event.pos):
-                    pass
+                    Level_2()
                 elif level3_rektangel.collidepoint(event.pos):
                     Level_3()
 
