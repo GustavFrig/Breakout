@@ -1,17 +1,21 @@
 import pygame as pg
 from constants import *
 from objekt import *
+import random as rn
 
 def freeplay():
+    start_tid = pg.time.get_ticks()
+    START_PAUSE = 1000  # 1 sekund
+    fartRetning = [-1, 1]
     pg.init()
     
     ball = Ball(
-        x=400,
+        x=rn.randint(0, 600),
         y=300,
         bredde=15,
         hoyde=15,
         farge=(255, 0, 0),
-        vx=5,
+        vx=5*rn.choice(fartRetning),
         vy=5
     )
     platform = Platform(farge=BLUE, x=500, y=500)
@@ -79,7 +83,9 @@ def freeplay():
             pg.draw.rect(vindu, BLACK, fortsett_rektangel,2)
             pg.draw.rect(vindu, BLACK, meny_rektangel, 2)
             
-        ball.oppdater()
+        nå = pg.time.get_ticks()
+        if nå - start_tid >= START_PAUSE:
+            ball.oppdater()
         #Når man taper
         if ball.rect.bottom >= VINDU_HOYDE:
             ball.rect.bottom = VINDU_HOYDE
@@ -106,7 +112,22 @@ def freeplay():
                 poneg+=100
                 poneg = str(poneg)
                 kloss.aktiv = False
-                ball.vy *= -1
+
+                overlap_V   = ball.rect.right - kloss.rect.left
+                overlap_Oo  = kloss.rect.right - ball.rect.left
+                overlap_N    = ball.rect.bottom - kloss.rect.top
+                overlap_S = kloss.rect.bottom - ball.rect.top
+
+                minste_overlap = min(
+                    abs(overlap_V), abs(overlap_Oo),
+                    abs(overlap_N), abs(overlap_S)
+                )
+
+
+                if minste_overlap == abs(overlap_N) or minste_overlap == abs(overlap_S):
+                    ball.vy *= -1
+                else:
+                    ball.vx *= -1
                 break
         #Hvor ballen bouncer
         if ball.rect.colliderect(platform.rect):
