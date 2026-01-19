@@ -4,7 +4,7 @@ from constants import *
 pg.init()
 pg.mixer.init()
 
-losing_effect = pg.mixer.Sound("prosjekter/Breakthrough/Breakout/sounds/losing.wav")
+losing_effect = pg.mixer.Sound("sounds/losing.wav")
 
 class Platform(object):
     def __init__(self, farge, x, y:int, width = 100) -> None:
@@ -51,7 +51,7 @@ class Rekt:
         self.rect = pg.Rect(x, y, bredde, hoyde)
         self.farge = farge
         self.aktiv = True  # om klossen fortsatt finnes
-        self.lyd = pg.mixer.Sound("prosjekter/Breakthrough/Breakout/sounds/blokk.wav")
+        self.lyd = pg.mixer.Sound("sounds/blokk.wav")
 
     def tegn(self, vindu):
         if self.aktiv:
